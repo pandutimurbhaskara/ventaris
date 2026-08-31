@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["oxc", "typescript"],
+  "env": { "node": true, "es2023": true },
+  "ignorePatterns": ["dist/**", "server/**"],
+  "rules": {
+    "no-unused-vars": "warn"
+  }
+}
