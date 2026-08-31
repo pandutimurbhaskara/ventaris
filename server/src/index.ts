@@ -1,5 +1,10 @@
 import { createApp } from "./app";
 import { env } from "./config/env";
+import { migrate } from "./db/migrate";
+import { seed } from "./db/seed";
+
+migrate();
+seed();
 
 const app = createApp();
 

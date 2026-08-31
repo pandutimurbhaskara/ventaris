@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import "dotenv/config";
 
 type NodeEnv = "development" | "production" | "test";
@@ -23,6 +25,8 @@ export const env = {
   port: requireNumber("PORT", 3000),
   /** Comma-separated list; "*" (default) allows any origin. */
   corsOrigin: process.env.CORS_ORIGIN?.trim() || "*",
+  /** SQLite file path. Relative paths resolve against the server package root. */
+  dbPath: path.resolve(process.cwd(), process.env.DB_PATH?.trim() || "data/marketplace.db"),
 } as const;
 
 export const isProduction = env.nodeEnv === "production";

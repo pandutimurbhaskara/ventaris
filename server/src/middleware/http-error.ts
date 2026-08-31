@@ -18,4 +18,8 @@ export class HttpError extends Error {
   static notFound(message = "Not Found"): HttpError {
     return new HttpError(404, message);
   }
+
+  static conflict(message = "Conflict", details?: unknown): HttpError {
+    return new HttpError(409, message, details);
+  }
 }
