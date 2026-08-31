@@ -34,8 +34,9 @@ Server (`cd server`):
 | `npm run start` | run the compiled `dist/index.js` |
 | `npm run typecheck` | `tsc --noEmit` |
 
-`test` is still the npm placeholder that exits 1 — there are no tests. `nodemon` is a leftover
-devDependency; `dev` uses `tsx` instead, so nodemon can be dropped.
+`npm test` runs `node --import tsx --test 'src/**/*.test.ts'` (Node's built-in test runner,
+no Jest/Vitest dependency). `nodemon` is a leftover devDependency; `dev` uses `tsx` instead, so
+nodemon can be dropped.
 
 ## Layout gotchas
 
@@ -110,6 +111,18 @@ devDependency; `dev` uses `tsx` instead, so nodemon can be dropped.
   `GET /api/shipping-options`, `GET /api/payment-methods`; `GET /api/transactions`,
   `POST /api/transactions`, `GET /api/transactions/:id`. Products are demo data only — 10
   rows seeded on first boot, id/name/description/price(IDR)/stock/image.
+- Tests: `*.test.ts` colocated next to the file under test (e.g.
+  `repositories/product.repository.test.ts`), using `node:test` + `node:assert/strict` and run
+  via `tsx` (Node's native TS type-stripping only strips types, it doesn't rewrite `import`
+  syntax to `require`, so plain `node --test` fails on this codebase's ESM-syntax/CJS-target
+  files — the loader is required). DB-backed tests point `db/client.ts` at a per-file temp
+  SQLite file by setting `process.env.DB_PATH` **before** any import that transitively pulls
+  in `config/env.ts` (a bare statement placed above the `import` lines — valid because ES
+  modules allow other statements interleaved with imports, and tsc preserves that order when
+  emitting `require()` calls); each such file calls `migrate()` itself and cleans up the temp
+  file in an `after()` hook. Don't pass a bare directory to `node --test` — recursively
+  scanning `src/` risks importing `index.ts`, which calls `app.listen()` as a module-level side
+  effect; the npm script instead passes an explicit `'src/**/*.test.ts'` glob.
 
 ## Cross-cutting
 
