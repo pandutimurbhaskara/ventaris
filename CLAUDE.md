@@ -49,9 +49,25 @@ are touching `server/package.json` anyway.
 
 - React 19 + Vite 8, JSX in `.jsx` files, no TypeScript.
 - Entry chain: `index.html` → `src/main.jsx` (mounts `<App />` in `<StrictMode>`) → `src/App.jsx`.
-- Styling is plain CSS with nesting, no framework. Design tokens (colors, fonts) are CSS
-  custom properties on `:root` in `src/index.css`, including a dark-mode block; component
-  styles live in `src/App.css`. Use the existing `var(--…)` tokens rather than hardcoding colors.
+- Styling is **Tailwind CSS v4** via the `@tailwindcss/vite` plugin (no `tailwind.config.js`
+  and no PostCSS — v4 is configured in CSS). `src/index.css` is the whole stylesheet:
+  `@import 'tailwindcss'`, design tokens in `@theme`, global base rules in `@layer base`,
+  and the dark-mode token overrides. There is no `App.css`; component styling is utility
+  classes in the JSX, with repeated class strings hoisted to consts at the top of `App.jsx`.
+- Colors and fonts are `@theme` tokens (`--color-text-h`, `--color-border`, `--font-heading`, …),
+  so each generates utilities (`text-text-h`, `border-border`, `font-heading`). Use those
+  utilities rather than hardcoding colors. Dark mode is a plain
+  `@media (prefers-color-scheme: dark)` block that reassigns the same token variables — it sits
+  **outside** any `@layer` so it beats the `@theme` defaults. Add new colors there in both places.
+- Two things to know before editing styles:
+  - `:root` deliberately has **no `font-size`**. It stays at the browser default 16px so
+    Tailwind's rem scale maps 1:1 to px (`p-8` = 32px, `text-base` = 16px). Body text size
+    (16px, 18px at `lg`) is set on `body` in px. Don't move it back to `:root`.
+  - Preflight blockifies `img`/`svg` and sets `vertical-align: middle`. A few elements
+    (`sectionIcon`, the hero base image) carry `inline align-baseline` to keep the original
+    inline-layout spacing; the comments in `App.jsx` say so.
+- The mobile breakpoint is Tailwind's `lg` (1024px), mobile-first: base styles are the small
+  screen, `lg:` is desktop. The old CSS used `@media (max-width: 1024px)` instead.
 - SVG icons are a sprite at `public/icons.svg`, referenced as `<use href="/icons.svg#name-icon">`.
   Raster/logo assets that should be hashed by the bundler go in `src/assets/` and are imported.
 - Lint config is `.oxlintrc.json` (`react/rules-of-hooks` as error). Oxlint, not ESLint —
