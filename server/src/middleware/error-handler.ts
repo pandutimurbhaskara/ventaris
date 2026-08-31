@@ -4,12 +4,10 @@ import { isProduction } from "../config/env";
 import { HttpError } from "./http-error";
 
 interface ErrorBody {
-  error: {
-    message: string;
-    status: number;
-    details?: unknown;
-    stack?: string;
-  };
+  success: false;
+  message: string;
+  details?: unknown;
+  stack?: string;
 }
 
 /**
@@ -29,12 +27,12 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
 
   if (status >= 500) console.error(err);
 
-  const body: ErrorBody = { error: { message, status } };
+  const body: ErrorBody = { success: false, message };
   if (err instanceof HttpError && err.details !== undefined) {
-    body.error.details = err.details;
+    body.details = err.details;
   }
   if (!isProduction && err instanceof Error && err.stack) {
-    body.error.stack = err.stack;
+    body.stack = err.stack;
   }
 
   res.status(status).json(body);
