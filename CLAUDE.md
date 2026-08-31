@@ -2,12 +2,12 @@
 
 ## What this is
 
-`ventaris` is a two-part JS project: a React SPA (`client/`) and an Express JSON API (`server/`).
-Both halves are still at their generator defaults — the client is the unmodified
-`create-vite` React template, and the server is a single `/api/hello` route. There is no
-application domain logic yet, no tests, no CI, and **no git repository** (`git init` has not
-been run). Treat anything below that reads like a convention as a starting point rather than
-an established pattern.
+`ventaris` is a two-part project: a React SPA (`client/`, JavaScript) and an Express JSON API
+(`server/`, TypeScript). The client is still the unmodified `create-vite` React template. The
+server has a layered structure (routes → controllers, shared middleware and config) but no
+application domain logic yet — only `/api/health` and `/api/hello`. There are no tests and no
+CI. Treat anything below that reads like a convention as a starting point rather than an
+established pattern.
 
 The two packages are independent npm projects. There is no workspace root, no root
 `package.json`, and no shared tooling — install and run each separately.
@@ -26,24 +26,25 @@ Client (`cd client`):
 
 Server (`cd server`):
 
-`package.json` defines **no `start` or `dev` script** — its `test` script is the npm
-placeholder that exits 1, and `main` points at a nonexistent `index.js`. Run it directly:
+| Command | Effect |
+| --- | --- |
+| `npm install` | install deps |
+| `npm run dev` | tsx watch mode on `src/index.ts` (default http://localhost:3000) |
+| `npm run build` | `tsc` compile to `server/dist/` |
+| `npm run start` | run the compiled `dist/index.js` |
+| `npm run typecheck` | `tsc --noEmit` |
 
-```
-node server/src/index.js              # from inside server/
-npx nodemon server/src/index.js       # watch mode; nodemon is a devDependency
-```
-
-Adding proper `start`/`dev` scripts and fixing `main` is a reasonable first cleanup if you
-are touching `server/package.json` anyway.
+`test` is still the npm placeholder that exits 1 — there are no tests. `nodemon` is a leftover
+devDependency; `dev` uses `tsx` instead, so nodemon can be dropped.
 
 ## Layout gotchas
 
-- The server entrypoint is at `server/server/src/index.js` — the directory name is doubled.
-  Paths in this repo are easy to get wrong because of it; double-check before writing one.
-- Client and server use **different module systems**. `client/package.json` is
-  `"type": "module"` (ESM, `import`); `server/package.json` is `"type": "commonjs"`
-  (`require`). Do not copy import syntax across the boundary.
+- The server entrypoint is `server/src/index.ts`. An orphaned copy of the old JS server still
+  sits at `server/server/src/index.js` (doubled directory name) — it is dead code, delete it.
+- Both halves now use `import` syntax, but the **emit targets differ**: `client/package.json`
+  is `"type": "module"` (real ESM); `server/package.json` is `"type": "commonjs"` and TS
+  compiles its `import`s down to `require`. Server code must stay CJS-compatible — no
+  top-level `await`, no ESM-only dependencies.
 
 ## Client notes
 
@@ -59,12 +60,21 @@ are touching `server/package.json` anyway.
 
 ## Server notes
 
-- Express 5 (not 4 — error-handling and router behavior differ from most Express docs online).
-- Currently `cors()` is applied wide open and `express.json()` is registered globally.
-- `dotenv` is a dependency but is **not required or configured anywhere**, and no `.env` file
-  exists. `PORT` is read straight from `process.env` (defaults to 3000). If you introduce
-  config, wire up `dotenv` explicitly and add `.env` to a gitignore — `server/` has no
-  `.gitignore` at all (only `client/` does).
+- TypeScript 7 + Express 5 (not 4 — error-handling and router behavior differ from most
+  Express docs online). `tsconfig.json` is `strict` plus `noUncheckedIndexedAccess` and
+  `exactOptionalPropertyTypes`; `module` is `node18` (TS 7 removed `moduleResolution: node`).
+- Layout under `src/`: `index.ts` (listen + signal handling) → `app.ts` (`createApp()`, the
+  middleware chain) → `routes/` (thin routers, all mounted under `/api` by `routes/index.ts`)
+  → `controllers/` (handlers, each exporting its own response interface).
+- Errors: throw `HttpError` (`middleware/http-error.ts`) for anything client-facing.
+  `middleware/not-found.ts` and `middleware/error-handler.ts` must stay registered last, in
+  that order. Express 5 forwards rejected promises automatically, so async handlers need no
+  try/catch. Stack traces are included in error bodies outside production only.
+- Config is centralized in `src/config/env.ts`, which loads `dotenv/config` — read config
+  from the exported `env` object, never `process.env` directly. Vars: `PORT` (3000),
+  `NODE_ENV` (development), `CORS_ORIGIN` (`*`, or a comma-separated allowlist). No
+  `.env` file is committed; `server/.gitignore` excludes it.
+- Routes: `GET /api/health`, `GET /api/hello?name=…`.
 
 ## Cross-cutting
 
