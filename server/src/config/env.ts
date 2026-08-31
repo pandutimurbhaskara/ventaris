@@ -25,8 +25,14 @@ export const env = {
   port: requireNumber("PORT", 3000),
   /** Comma-separated list; "*" (default) allows any origin. */
   corsOrigin: process.env.CORS_ORIGIN?.trim() || "*",
-  /** SQLite file path. Relative paths resolve against the server package root. */
-  dbPath: path.resolve(process.cwd(), process.env.DB_PATH?.trim() || "data/marketplace.db"),
+  /**
+   * SQLite file path. Relative paths resolve against the server package root. A getter (not a
+   * frozen value) so tests that set process.env.DB_PATH after this module has already loaded
+   * — but before db/client.ts's lazily-created connection is first used — still take effect.
+   */
+  get dbPath(): string {
+    return path.resolve(process.cwd(), process.env.DB_PATH?.trim() || "data/marketplace.db");
+  },
 } as const;
 
 export const isProduction = env.nodeEnv === "production";

@@ -1,9 +1,10 @@
 import os from "node:os";
 import path from "node:path";
 
-// Must run before any import that transitively pulls in config/env.ts (which
-// resolves DB_PATH at module-load time), so this points db/client.ts at a
-// throwaway file instead of the real dev database.
+// Sets DB_PATH before db/client.ts opens its (lazily-created) connection. Static imports
+// are hoisted above this statement under tsx/ESM, but db/client.ts doesn't actually touch
+// process.env.DB_PATH until its connection is first used — which happens below in
+// migrate(), a plain statement that runs after this one — so hoisting doesn't matter here.
 const testDbPath = path.join(os.tmpdir(), `ventaris-test-transaction-service-${process.pid}-${Date.now()}.db`);
 process.env.DB_PATH = testDbPath;
 process.env.NODE_ENV = "test";
