@@ -21,4 +21,33 @@
   <symbol id="x-icon" viewBox="0 0 19 19">
     <path fill="#08060d" fill-rule="evenodd" d="M1.893 1.98c.052.072 1.245 1.769 2.653 3.77l2.892 4.114c.183.261.333.48.333.486s-.068.089-.152.183l-.522.593-.765.867-3.597 4.087c-.375.426-.734.834-.798.905a1 1 0 0 0-.118.148c0 .01.236.017.664.017h.663l.729-.83c.4-.457.796-.906.879-.999a692 692 0 0 0 1.794-2.038c.034-.037.301-.34.594-.675l.551-.624.345-.392a7 7 0 0 1 .34-.374c.006 0 .93 1.306 2.052 2.903l2.084 2.965.045.063h2.275c1.87 0 2.273-.003 2.266-.021-.008-.02-1.098-1.572-3.894-5.547-2.013-2.862-2.28-3.246-2.273-3.266.008-.019.282-.332 2.085-2.38l2-2.274 1.567-1.782c.022-.028-.016-.03-.65-.03h-.674l-.3.342a871 871 0 0 1-1.782 2.025c-.067.075-.405.458-.75.852a100 100 0 0 1-.803.91c-.148.172-.299.344-.99 1.127-.304.343-.32.358-.345.327-.015-.019-.904-1.282-1.976-2.808L6.365 1.85H1.8zm1.782.91 8.078 11.294c.772 1.08 1.413 1.973 1.425 1.984.016.017.241.02 1.05.017l1.03-.004-2.694-3.766L7.796 5.75 5.722 2.852l-1.039-.004-1.039-.004z" clip-rule="evenodd"/>
   </symbol>
+  <symbol id="search-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.167 15.833a6.667 6.667 0 1 0 0-13.333 6.667 6.667 0 0 0 0 13.333M17.5 17.5l-3.625-3.625"/>
+  </symbol>
+  <symbol id="cart-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.5 2.5h1.5l1.766 8.83a1.667 1.667 0 0 0 1.667 1.337h6.984a1.667 1.667 0 0 0 1.65-1.415L17 6.667H4.417"/>
+    <path fill="none" stroke="currentColor" stroke-width="1.5" d="M8.333 17.083a.833.833 0 1 0 0-1.666.833.833 0 0 0 0 1.666M15 17.083a.833.833 0 1 0 0-1.666.833.833 0 0 0 0 1.666"/>
+  </symbol>
+  <symbol id="receipt-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 2.5h10v15l-1.875-1.25L11.25 17.5l-1.875-1.25L7.5 17.5l-1.875-1.25L3.75 17.5V5A2.5 2.5 0 0 1 5 2.5Z"/>
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M7 7.5h6M7 10.833h6M7 14.167h3.333"/>
+  </symbol>
+  <symbol id="trash-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.333 5.833h13.334M8.333 9.167v4.166M11.667 9.167v4.166M4.167 5.833l.833 9.167a1.667 1.667 0 0 0 1.667 1.5h6.666a1.667 1.667 0 0 0 1.667-1.5l.833-9.167M7.5 5.833V3.75c0-.46.373-.833.833-.833h3.334c.46 0 .833.373.833.833v2.083"/>
+  </symbol>
+  <symbol id="plus-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 4.167v11.666M4.167 10h11.666"/>
+  </symbol>
+  <symbol id="minus-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.167 10h11.666"/>
+  </symbol>
+  <symbol id="chevron-left-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.5 15.833 6.667 10 12.5 4.167"/>
+  </symbol>
+  <symbol id="box-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="m2.5 6.25 7.5-3.75 7.5 3.75-7.5 3.75-7.5-3.75Zm0 0v7.5l7.5 3.75m-7.5-11.25L10 10m0 0v7.5m0-7.5 7.5-3.75m0 0v7.5L10 17.5"/>
+  </symbol>
+  <symbol id="alert-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 7.5v3.333M10 13.75h.008M8.257 3.402 1.982 14.583c-.548.976.115 2.25 1.242 2.25h13.552c1.127 0 1.79-1.274 1.242-2.25L11.743 3.402a1.417 1.417 0 0 0-2.486 0Z"/>
+  </symbol>
 </svg>

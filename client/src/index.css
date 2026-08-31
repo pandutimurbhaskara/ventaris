@@ -12,6 +12,10 @@
   --color-accent-bg: rgba(170, 59, 255, 0.1);
   --color-accent-border: rgba(170, 59, 255, 0.5);
   --color-social-bg: rgba(244, 243, 236, 0.5);
+  --color-danger: #dc2626;
+  --color-danger-bg: rgba(220, 38, 38, 0.1);
+  --color-success: #16a34a;
+  --color-success-bg: rgba(22, 163, 74, 0.1);
 
   --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --font-heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -58,6 +62,10 @@
     --color-accent-bg: rgba(192, 132, 252, 0.15);
     --color-accent-border: rgba(192, 132, 252, 0.5);
     --color-social-bg: rgba(47, 48, 58, 0.5);
+    --color-danger: #f87171;
+    --color-danger-bg: rgba(248, 113, 113, 0.15);
+    --color-success: #4ade80;
+    --color-success-bg: rgba(74, 222, 128, 0.15);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   }
